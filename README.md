@@ -1,0 +1,2 @@
+# planificacion-IA
+Practica planificacion

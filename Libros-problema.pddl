@@ -11,8 +11,8 @@
     (quiere-leer libro1)
     (quiere-leer libro2)
     (quiere-leer libro3)
-    (predecesor libro2 libro1)
-    (predecesor libro3 libro2)
+    (predecesor libro1 libro2)
+    (predecesor libro2 libro3)
   )
 
   (:goal (and (leido libro1) (leido libro2) (leido libro3)))

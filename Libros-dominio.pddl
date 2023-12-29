@@ -1,25 +1,33 @@
 (define (domain planificacion-libros)
-  (:requirements :strips :typing :negative-preconditions :disjunctive-preconditions)
+  (:requirements :strips :typing :negative-preconditions :disjunctive-preconditions :fluents)
   
   ;; Tipos
   (:types
     libro mes - objeto
   )
 
+  (:functions
+    (numero_mes ?m - mes)
+    (fecha ?l - libro) ;; Fecha en la que esta programada la lectura del libro l
+  )
+
   ;; Predicados
   (:predicates
-    (leido ?libro)
-    (quiere-leer ?libro)
-    (predecesor ?libro ?predecesor)
+    (leido ?l - libro)
+    (quiere_leer ?l - libro) 
+    (predecesor ?l - libro ?p - libro) ;; para leer l hay que haber leído p
   )
 
   ;; Acciones
   (:action leer
-    :parameters (?libro ?mes)
+    :parameters (?l - libro ?m - mes ?p - libro)
     :precondition (and 
-                  (quiere-leer ?libro) (not (leido ?libro)) 
-                  (or (not (exists (?p - libro) (and (predecesor ?libro ?p) (not (leido ?p)))))
-                      (exists (?p - libro) (and (predecesor ?libro ?p) (leido ?p)))))
-    :effect (and (leido ?libro))
+                    (quiere-leer ?l) (not (leido ?l)) 
+                    (or 
+                      (not (exists (?p1 - libro) (predecesor ?p1 ?l)))
+                      (and (predecesor ?l ?p) (leido ?p) (<= (fecha ?p) (numero_mes ?m)))
+                    )          
+                  )
+    :effect (and (leido ?l) (fecha ?l (numero_mes ?m)))
   )
 )

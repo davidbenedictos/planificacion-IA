@@ -3,5 +3,7 @@ Practica planificacion
 para ejecutar si estamos en la misma carpeta que metric-ff
 # /ff -o domain.pddl -f problem.pddl
 si estamos en una carpeta dentro de ese directorio
-# ../ff -o SmartBus-domain.pddl -f SmartBusprob1.pddl
+# ../Metric-FF/ff -o Libros-dominio.pddl -f Libros-problema.pddl
+
+
 

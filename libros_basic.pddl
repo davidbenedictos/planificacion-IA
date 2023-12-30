@@ -1,5 +1,5 @@
 (define (domain planificacion-libros)
-  (:requirements :adl :typing :existential-preconditions)
+  (:requirements :adl :typing :existential-preconditions :fluents)
   
   (:types
     libro mes

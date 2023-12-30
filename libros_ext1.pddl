@@ -16,19 +16,22 @@
   )
 
   (:action leer
-    :parameters (?libro - libro ?mes - mes)
-    :precondition (and 
-                    (not (leido ?libro))
-                    (or 
-                      (forall (?x - libro)
-                      (and (prerequisito ?libro ?x) (leido ?x) (< (planificado_para ?x) (numero_mes ?mes)))
-                    )
-                      (not (exists (?x - libro) (prerequisito ?libro ?x)))
+  :parameters (?libro - libro ?mes - mes)
+  :precondition (and 
+                  (not (leido ?libro))
+                  (or 
+                    (not (exists (?x - libro) (prerequisito ?libro ?x)))
+                    (forall (?x - libro) 
+                      (or 
+                        (not (prerequisito ?libro ?x))
+                        (and (prerequisito ?libro ?x) (leido ?x) (< (planificado_para ?x) (numero_mes ?mes)))
+                      )
                     )
                   )
-    :effect (and 
-              (leido ?libro) 
-              (increase (planificado_para ?libro) (numero_mes ?mes))
-            )
-  )
+                )
+  :effect (and 
+            (leido ?libro) 
+            (increase (planificado_para ?libro) (numero_mes ?mes))
+          )
+)
 )

@@ -21,7 +21,6 @@
                     (not (leido ?libro))
                     (or 
                       (or
-                      (not (prerequisito ?libro ?pre))
                       (and (prerequisito ?libro ?pre) (leido ?pre) (< (planificado_para ?pre) (numero_mes ?mes)))
                       )
                       (not (exists (?x - libro) (prerequisito ?libro ?x)))

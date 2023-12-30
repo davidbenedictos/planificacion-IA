@@ -21,10 +21,10 @@
                   (not (leido ?libro))
                   (or 
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
-                    (forall (?x - libro) 
+                    (forall (?pre - libro) 
                       (or 
-                        (not (prerequisito ?libro ?x))
-                        (and (prerequisito ?libro ?x) (leido ?x) (< (planificado_para ?x) (numero_mes ?mes)))
+                        (not (prerequisito ?libro ?pre))
+                        (and (prerequisito ?libro ?pre) (leido ?pre) (< (planificado_para ?pre) (numero_mes ?mes)))
                       )
                     )
                   )

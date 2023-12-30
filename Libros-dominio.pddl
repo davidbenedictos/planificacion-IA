@@ -1,5 +1,5 @@
 (define (domain planificacion-libros)
-  (:requirements :adl :typing :existential-preconditions :fluents)
+  (:requirements :adl :typing :existential-preconditions)
   
   (:types
     libro mes
@@ -20,10 +20,7 @@
     :precondition (and 
                     (not (leido ?libro))
                     (or 
-                      (or
-                      (not (prerequisito ?libro ?pre))
                       (and (prerequisito ?libro ?pre) (leido ?pre) (< (planificado_para ?pre) (numero_mes ?mes)))
-                      )
                       (not (exists (?x - libro) (prerequisito ?libro ?x)))
                     )
                   )

@@ -33,5 +33,5 @@
             (leido ?libro) 
             (increase (planificado_para ?libro) (numero_mes ?mes))
           )
-)
+  )
 )

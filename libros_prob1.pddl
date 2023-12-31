@@ -1,15 +1,17 @@
-(define (problem planificacion-libros-problema)
+(define (problem planificacion-libros-problema1)
   (:domain planificacion-libros)
 
   (:objects
-    libro1 libro2 libro3 - libro
+    libro1 libro2 libro3 libro4 libro5 - libro
     enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre - mes
   )
 
   (:init
     (prerequisito libro1 libro2)
-    
     (prerequisito libro2 libro3) 
+    (prerequisito libro5 libro2)
+    (prerequisito libro2 libro4)
+
     (= (numero_mes enero) 1)
     (= (numero_mes febrero) 2)
     (= (numero_mes marzo) 3)
@@ -25,6 +27,8 @@
     (= (planificado_para libro1) 0)
     (= (planificado_para libro2) 0)
     (= (planificado_para libro3) 0)
+    (= (planificado_para libro4) 0)
+    (= (planificado_para libro5) 0)
   )
 
   (:goal (forall (?l - libro) (leido ?l)))

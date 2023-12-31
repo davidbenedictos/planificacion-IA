@@ -14,7 +14,7 @@
     (leido ?libro - libro)
     (prerequisito ?libro - libro ?pre - libro)
   )
-
+  
   (:action leer
     :parameters (?libro - libro ?pre - libro ?mes - mes)
     :precondition (and 
@@ -27,7 +27,7 @@
               (assign (planificado_para ?libro) (numero_mes ?mes))
             )
   )
-  
+
   (:action leer_pre
     :parameters (?libro - libro ?pre - libro ?mes - mes)
     :precondition (and 

@@ -8,8 +8,6 @@
   (:functions
         (numero_mes ?mes - mes)                            
         (planificado_para ?libro - libro)
-        (paginas_leidas ?mes - mes)
-        (paginas_libro ?libro - libro)
   )
 
   (:predicates
@@ -22,7 +20,6 @@
   :parameters (?libro - libro ?mes - mes)
   :precondition (and 
                   (not (leido ?libro))
-                  (<= (+ (paginas_leidas ?mes) (paginas_libro ?libro)) 800)
                   ; prerequisitos
                   (or 
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
@@ -51,7 +48,6 @@
                 )
   :effect (and 
             (leido ?libro) 
-            (increase (paginas_leidas ?mes) (paginas_libro ?libro))
             (assign (planificado_para ?libro) (numero_mes ?mes))
           )
 )

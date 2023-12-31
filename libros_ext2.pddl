@@ -17,23 +17,10 @@
   )
 
   (:action leer
-    :parameters (?libro - libro ?pre - libro ?mes - mes)
-    :precondition (and 
-                    (not (leido ?libro))
-                    (not (exists (?x - libro) (prerequisito ?libro ?x)))
-                    (not (exists(?x - libro) (paralelo ?libro ?x)))
-                    
-                  )
-    :effect (and 
-              (leido ?libro) 
-              (assign (planificado_para ?libro) (numero_mes ?mes))
-            )
-  )
-
-  (:action leer_pre
   :parameters (?libro - libro ?mes - mes)
   :precondition (and 
                   (not (leido ?libro))
+                  ; prerequisitos
                   (or 
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
                     (forall (?pre - libro) 
@@ -43,32 +30,17 @@
                       )
                     )
                   )
-                )
-  :effect (and 
-            (leido ?libro) 
-            (increase (planificado_para ?libro) (numero_mes ?mes))
-          )
-  )
-
-  (:action leer_paralelo
-  :parameters (?libro - libro ?mes - mes)
-  :precondition (and 
-                  (not (leido ?libro))
-                  (or 
-                    (forall (?paralelo - libro) 
-                      (or 
-                        (not (paralelo ?libro ?paralelo))
-                        (or 
-                            (and (paralelo ?libro ?paralelo) (leido ?paralelo) (<= (planificado_para ?paralelo) (numero_mes ?mes)))
-                            ; leetelo el este mes
-                            )
-                      )
+                  ; paralelos
+                  (forall (?par - libro)
+                    (or
+                      (not (paralelo ?libro ?par))
+                      (and (paralelo ?libro ?par) (leido ?par) (<= (planificado_para ?par) (numero_mes ?mes)))
                     )
                   )
                 )
   :effect (and 
             (leido ?libro) 
-            (increase (planificado_para ?libro) (numero_mes ?mes))
+            (assign (planificado_para ?libro) (numero_mes ?mes))
           )
-  )
+)
 )

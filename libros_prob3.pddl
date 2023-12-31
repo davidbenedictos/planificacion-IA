@@ -1,14 +1,22 @@
-(define (problem planificacion-libros-problema)
+(define (problem planificacion-libros-problema3)
   (:domain planificacion-libros)
 
   (:objects
-    libro1 libro2 libro3 libro4 - libro
+    libro1 libro2 libro3 libro4 libro5 libro6 - libro
     enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre - mes
   )
 
   (:init
-    (paralelo libro1 libro4) 
-    (paralelo libro2 libro3)
+    (prerequisito libro1 libro2)
+    (prerequisito libro1 libro3)
+    (prerequisito libro2 libro3) 
+    (prerequisito libro6 libro5)
+    (prerequisito libro6 libro4)
+    (prerequisito libro6 libro3)
+    (prerequisito libro6 libro2)
+    (prerequisito libro1 libro6)
+    (paralelo libro1 libro6)
+
     (= (numero_mes enero) 1)
     (= (numero_mes febrero) 2)
     (= (numero_mes marzo) 3)
@@ -25,6 +33,8 @@
     (= (planificado_para libro2) 0)
     (= (planificado_para libro3) 0)
     (= (planificado_para libro4) 0)
+    (= (planificado_para libro5) 0)
+    (= (planificado_para libro6) 0)
   )
 
   (:goal (forall (?l - libro) (leido ?l)))

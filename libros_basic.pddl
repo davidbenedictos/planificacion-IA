@@ -17,7 +17,7 @@
   
   (:action leer
     :parameters (?libro - libro ?pre - libro ?mes - mes)
-    :precondition (and 
+    :precondition (and
                     (not (leido ?libro))
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
                     

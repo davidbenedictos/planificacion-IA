@@ -15,6 +15,7 @@
     (prerequisito libro6 libro3)
     (prerequisito libro6 libro2)
     (prerequisito libro1 libro6)
+
     (paralelo libro1 libro6)
 
     (= (numero_mes enero) 1)

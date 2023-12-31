@@ -34,7 +34,15 @@
                   (forall (?par - libro)
                     (or
                       (not (paralelo ?libro ?par))
-                      (and (paralelo ?libro ?par) (leido ?par) (<= (planificado_para ?par) (numero_mes ?mes)))
+                      (and 
+                        (paralelo ?libro ?par)
+                        (leido ?par)
+                        (or 
+                          (= (planificado_para ?par) (numero_mes ?mes)) ; Mismo mes
+                          (= (planificado_para ?par) (- (numero_mes ?mes) 1)) ; Mes anterior
+                          (= (planificado_para ?par) (+ (numero_mes ?mes) 1)) ; Mes siguiente
+                        )
+                      )
                     )
                   )
                 )

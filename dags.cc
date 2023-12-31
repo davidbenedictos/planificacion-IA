@@ -62,18 +62,76 @@ vector<vector<int>> createDag(int n) {
     return graph;
 }
 
-void readAnswer() {
-    //lee la respuesta
+void readAnswer(bool& planFound, float& totalTime) {
+    ifstream file("salida.txt");
+    string line;
+    planFound = false;
+    totalTime = 0.0;
+
+    while (getline(file, line)) {
+        if (line.find("ff: found legal plan") != string::npos) {
+            planFound = true;
+        }
+        else if (line.find("seconds total time") != string::npos) {
+            stringstream ss(line);
+            string temp;
+            while (ss >> temp) {
+                if (stringstream(temp) >> totalTime) {
+                    break;
+                }
+            }
+        }
+    }
 }
 
-void isCorrect() {
-    
+bool isCorrect() {
+    return true;
 }
 
 void printProblem() {
     
 }
 
-int main() {
+void printPDDL(const vector<vector<int>>& dag, const vector<Libro>& libros) {
+    cout << "(define (problem planificacion-libros-problema)" << endl;
+    cout << "  (:domain planificacion-libros)" << endl;
+    cout << "  (:objects ";
+    for (const auto& libro : libros) {
+        cout << "libro" << libro.id << " ";
+    }
+    cout << "- libro)" << endl;
+    cout << "  (:init" << endl;
+    for (const auto& libro : libros) {
+        for (int pre : libro.prerequisitos) {
+            cout << "    (prerequisito libro" << libro.id << " libro" << pre << ")" << endl;
+        }
+    }
+    cout << "  )" << endl;
+    cout << "  (:goal (and";
+    for (const auto& libro : libros) {
+        cout << " (leido libro" << libro.id << ")";
+    }
+    cout << "))" << endl;
+    cout << ")" << endl;
+}
 
+void ejecutarPlanificador() {
+    system("ff -o libros_domainExt3.pddl -f libros_probExt3.pddl > salida.txt");
+}
+
+
+int main() {
+    ejecutarPlanificador();
+
+    bool planFound;
+    float totalTime;
+    readAnswer(planFound, totalTime);
+
+    if (planFound && isCorrect()) {
+        cout << "Plan válido encontrado. Tiempo total: " << totalTime << " segundos." << endl;
+    } else {
+        cout << "No se encontró un plan válido o el plan no es correcto." << endl;
+    }
+
+    return 0;
 }

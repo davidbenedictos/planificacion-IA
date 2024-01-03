@@ -1,9 +1,8 @@
-# planificacion-IA
-Practica planificacion
-para ejecutar si estamos en la misma carpeta que metric-ff
+##Practica 3: planificacion
+
+Necesitamos tener metric-ff instalado para poder probar nuestro problema. Una vez lo tengamos, en la carpeta Metric-FF tendremos el ejecutable que funciona con el siguiente comando:
 # /ff -o domain.pddl -f problem.pddl
-si estamos en una carpeta dentro de ese directorio
-# ../Metric-FF/ff -o Libros-dominio.pddl -f Libros-problema.pddl
+
 
 
 

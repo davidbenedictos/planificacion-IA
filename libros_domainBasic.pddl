@@ -1,5 +1,5 @@
 (define (domain planificacion-libros)
-  (:requirements :adl :typing :existential-preconditions :fluents)
+  (:requirements :adl :typing :existential-preconditions :disjunctive-preconditions :fluents)
   
   (:types
     libro mes
@@ -13,14 +13,27 @@
   (:predicates
     (leido ?libro - libro)
     (prerequisito ?libro - libro ?pre - libro)
+    (quiere_leer ?libro - libro)
+  )
+
+  (:action querer_prerequisito
+    :parameters (?libro - libro ?pre - libro)
+    :precondition (and 
+                    (not (quiere_leer ?pre))
+                    (prerequisito ?libro ?pre)
+                    (quiere_leer ?libro)
+                  )
+    :effect (and 
+              (quiere_leer ?pre) 
+            )
   )
   
-  (:action leer
+  (:action leer_sin_prerequisito
     :parameters (?libro - libro ?pre - libro ?mes - mes)
     :precondition (and
+                    (quiere_leer ?libro)
                     (not (leido ?libro))
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
-                    
                   )
     :effect (and 
               (leido ?libro) 
@@ -28,20 +41,19 @@
             )
   )
 
-  (:action leer_pre
+  (:action leer_con_prerequisito
     :parameters (?libro - libro ?pre - libro ?mes - mes)
     :precondition (and 
+                    (quiere_leer ?libro)
                     (not (leido ?libro))
-          
-                
-                     (and (prerequisito ?libro ?pre) (leido ?pre) (< (planificado_para ?pre) (numero_mes ?mes)))
-                     
-                   
-                    
+                    (and 
+                      (prerequisito ?libro ?pre) (leido ?pre) 
+                      (< (planificado_para ?pre) (numero_mes ?mes))
+                    ) 
                   )
     :effect (and 
               (leido ?libro) 
-              (increase (planificado_para ?libro) (numero_mes ?mes))
+              (assign (planificado_para ?libro) (numero_mes ?mes))
             )
   )
 )

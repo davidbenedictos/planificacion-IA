@@ -2,15 +2,21 @@
   (:domain planificacion-libros)
 
   (:objects
-    libro1 libro2 libro3 libro4 libro5 - libro
+    libro1 libro2 libro3 libro4 libro5 libro99 libro100 - libro
     enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre - mes
   )
 
   (:init
     (prerequisito libro1 libro2)
     (prerequisito libro2 libro3) 
-    (prerequisito libro5 libro2)
-    (prerequisito libro2 libro4)
+    (prerequisito libro3 libro4)
+    (prerequisito libro4 libro5)
+
+    (quiere_leer libro1)
+    (quiere_leer libro2)
+    ;;(quiere_leer libro3)
+    (quiere_leer libro4)
+    (quiere_leer libro5)
 
     (= (numero_mes enero) 1)
     (= (numero_mes febrero) 2)
@@ -31,5 +37,11 @@
     (= (planificado_para libro5) 0)
   )
 
-  (:goal (forall (?l - libro) (leido ?l)))
+  (:goal (forall (?l - libro) 
+            (or 
+              (not (quiere_leer ?l)) 
+              (leido ?l)
+            )
+          )       
+  )
 )

@@ -14,11 +14,37 @@
     (leido ?libro - libro)
     (prerequisito ?libro - libro ?pre - libro)
     (paralelo ?libro1 - libro ?libro2 - libro)
+    (quiere_leer ?libro - libro)
+  )
+
+  (:action querer_prerequisito
+    :parameters (?libro - libro ?pre - libro)
+    :precondition (and 
+                    (not (quiere_leer ?pre))
+                    (prerequisito ?libro ?pre)
+                    (quiere_leer ?libro)
+                  )
+    :effect (and 
+              (quiere_leer ?pre) 
+            )
+  )
+
+  (:action querer_paralelo
+    :parameters (?libro - libro ?par - libro)
+    :precondition (and 
+                    (not (quiere_leer ?par))
+                    (paralelo ?libro ?par)
+                    (quiere_leer ?libro)
+                  )
+    :effect (and 
+              (quiere_leer ?par) 
+            )
   )
 
   (:action leer
   :parameters (?libro - libro ?mes - mes)
   :precondition (and 
+                  (quiere_leer ?libro)
                   (not (leido ?libro))
                   ; prerequisitos
                   (or 

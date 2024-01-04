@@ -13,11 +13,25 @@
   (:predicates
     (leido ?libro - libro)
     (prerequisito ?libro - libro ?pre - libro)
+    (quiere_leer ?libro - libro)
+  )
+
+  (:action querer_prerequisito
+    :parameters (?libro - libro ?pre - libro)
+    :precondition (and 
+                    (not (quiere_leer ?pre))
+                    (prerequisito ?libro ?pre)
+                    (quiere_leer ?libro)
+                  )
+    :effect (and 
+              (quiere_leer ?pre) 
+            )
   )
 
   (:action leer
   :parameters (?libro - libro ?mes - mes)
   :precondition (and 
+                  (quiere_leer ?libro)
                   (not (leido ?libro))
                   (or 
                     (not (exists (?x - libro) (prerequisito ?libro ?x)))
@@ -31,7 +45,7 @@
                 )
   :effect (and 
             (leido ?libro) 
-            (increase (planificado_para ?libro) (numero_mes ?mes))
+            (assign (planificado_para ?libro) (numero_mes ?mes))
           )
   )
 )
